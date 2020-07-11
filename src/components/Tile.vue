@@ -1,5 +1,5 @@
 <template>
-    <div class="square" :class="[color]">
+    <div :class="[color]">
     </div>
 </template>
 
