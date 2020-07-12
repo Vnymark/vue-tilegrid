@@ -1,25 +1,28 @@
 <template>
-    <div :class="[color]">
+    <div class="square" :class="style">
     </div>
 </template>
 
 <script>
 export default {
     name: "Tile",
+    props: {
+      rotate: Boolean
+    },
     data() {
         return {
-            colors: [
-                'blue',
-                'green',
-                'red',
-                'yellow'
-            ],
+            style: '',
         }
     },
-    computed: {
-        color() {
-            return this.colors[Math.floor(Math.random() * this.colors.length)];
-        }
+    watch: {
+        rotate: {
+            handler() {
+                this.style = "rotating";
+                setTimeout( () =>{
+                    this.style = '';
+                }, 800)
+            },
+        },
     },
 };
 </script>
@@ -57,5 +60,10 @@ export default {
         -moz-box-shadow:    inset 0 0 20px #000000;
         -webkit-box-shadow: inset 0 0 20px #000000;
         box-shadow:         inset 0 0 20px #000000;
+    }
+    .rotating {
+        transition: transform 1s ease-in-out;
+        -webkit-transform: rotate3d(0, 1, 0, 60deg);;
+        transform: rotate3d(0, 1, 0, 180deg);;
     }
 </style>

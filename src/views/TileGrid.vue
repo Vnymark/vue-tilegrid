@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <Tile
-      @click.native="flip(index)"
-      v-for="index in 50"
-      :key="index"
-      v-bind:id="index"
-      v-bind:class="square"
+      v-for="child in this.children"
+      :key="child.id"
+      v-bind:id="child.id"
+      v-bind:class="child.color"
+      :rotate="child.rotate"
     >
     </Tile>
   </div>
@@ -19,22 +19,47 @@ export default {
   components: {
     Tile
   },
+  created() {
+      for (let i = 1; i <= 50; i++) {
+        this.children.push({
+          id: i,
+          color: this.getColor(),
+          rotate: false
+        })
+      }
+  },
   data: function() {
     return {
-      square: 'square'
+      colors: [
+        'blue',
+        'green',
+        'red',
+        'yellow'
+      ],
+      children: []
     };
   },
   methods: {
-    async flip(index) {
-      this.$children[index-1].$el.classList.toggle('rotated')
+    flip() {
+      let index = (Math.floor(Math.random() * this.children.length));
+      this.children[index].rotate = true;
       setTimeout(() => {
-        this.$children[index-1].$el.classList.toggle('rotated')
+        this.children[index].color = this.getColor();
+      }, 500);
+      setTimeout(() => {
+        this.children[index].rotate = false;
       }, 800);
-      setTimeout(() => {
-        this.flip(index);
-      }, 3000);
+
+    },
+    getColor() {
+      return this.colors[Math.floor(Math.random() * this.colors.length)];
     },
   },
+  mounted() {
+    setInterval( () => {
+      this.flip();
+    }, 3000)
+  }
 };
 </script>
 
@@ -43,10 +68,5 @@ export default {
   display: inline-block;
   font-size: 0;
   overflow: hidden;
-}
-.rotated {
-  transition: transform 1s ease-in-out;
-  -webkit-transform: rotate3d(0, 1, 0, 60deg);;
-  transform: rotate3d(0, 1, 0, 180deg);;
 }
 </style>
