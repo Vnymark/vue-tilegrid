@@ -20,28 +20,23 @@ export default {
     Tile
   },
   created() {
-      for (let i = 1; i <= 50; i++) {
-        this.children.push({
-          id: i,
-          color: this.getColor(),
-          rotate: false
-        })
-      }
+    for (let i = 1; i <= 200; i++) {
+      this.children.push({
+        id: i,
+        color: this.getColor(),
+        rotate: false
+      });
+    }
   },
   data: function() {
     return {
-      colors: [
-        'blue',
-        'green',
-        'red',
-        'yellow'
-      ],
+      colors: ["blue", "green", "red", "yellow"],
       children: []
     };
   },
   methods: {
     flip() {
-      let index = (Math.floor(Math.random() * this.children.length));
+      let index = Math.floor(Math.random() * this.children.length);
       this.children[index].rotate = true;
       setTimeout(() => {
         this.children[index].color = this.getColor();
@@ -49,24 +44,26 @@ export default {
       setTimeout(() => {
         this.children[index].rotate = false;
       }, 800);
-
     },
     getColor() {
       return this.colors[Math.floor(Math.random() * this.colors.length)];
-    },
+    }
   },
   mounted() {
-    setInterval( () => {
+    setInterval(() => {
       this.flip();
-    }, 3000)
+    }, 6000);
   }
 };
 </script>
 
 <style scoped lang="scss">
 .container {
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
   font-size: 0;
   overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
